@@ -22,19 +22,19 @@
 
   2.递推公式：两种状态，放与不放物品i
 
-  ​	不放物品i：dp[i] [j] = dp[i - 1] [j]
+ 	不放物品i：dp[i] [j] = dp[i - 1] [j]
 
-  ​	放物品i：dp[i] [j] = dp[i - 1] [j - wight[i]] + value[i]
+ 	放物品i：dp[i] [j] = dp[i - 1] [j - wight[i]] + value[i]
 
-  ​	所以dp[i] [j] = max(dp[i - 1] [j], dp[i - 1] [j - wight[i]] + value[i])
+ 	所以dp[i] [j] = max(dp[i - 1] [j], dp[i - 1] [j - wight[i]] + value[i])
 
   3.初始化数组：由上述递推公式可得，只需要初始化dp数组的第一行和第一列，dp[i] [0] = 0(背包为0最大价值也为0)，dp[0] [j] = 0或者value[0] (j>wight[i]不为0，否则为0)
 
-  4.遍历顺序：for(i = 0; i < nums; i ++)
+  4.遍历顺序：
+  for(i = 0; i < nums; i ++)
+   for(j = 0; j < bagweight; j ++)
 
-  ​							for(j = 0; j < bagweight; j ++)
-
-  ​	也可以先遍历背包再遍历物品，最后都要遍历，所以不会有顺序问题
+  也可以先遍历背包再遍历物品，最后都要遍历，所以不会有顺序问题
 
 * 0-1背包问题(一维数组，每次迭代更新第一行的值)：每个物品只能选取一次
 
@@ -42,23 +42,23 @@
 
   2.递推公式：两种状态，放与不放物品i
 
-  	不放物品i：dp[j] = dp[j]
+  不放物品i：dp[j] = dp[j]
 
-  	放物品i：dp[j] = dp[j - wight[i]] + value[i]
+  放物品i：dp[j] = dp[j - wight[i]] + value[i]
 
-  	所以dp[i] [j] = max(dp[j], dp[j - wight[i]] + value[i])
+  所以dp[i] [j] = max(dp[j], dp[j - wight[i]] + value[i])
 
   3.初始化数组：全部为0
 
-  4.遍历顺序：for(i = 0; i < nums; i ++)
-
-  						for(j = bagweight; j >= weight[i]; j--)
+  4.遍历顺序： 
+  for(i = 0; i < nums; i ++)
+    for(j = bagweight; j >= weight[i]; j--)
 
   为什么j要倒序：物品0的weight为1，value为15，dp[1] = dp[1 - weight[0]] + value[0] = 15,  dp[2] = dp[2 - weight[0]] + value[0] = 30
 
   物品0相当于用了两次，所以只能倒序。
 
-  	能否交换遍历顺序：因为一维数组相当于迭代更新第一行，所以只能先遍历物品再遍历背包。
+  能否交换遍历顺序：因为一维数组相当于迭代更新第一行，所以只能先遍历物品再遍历背包。
 
 * 0-1完全背包问题(一维数组，每次迭代更新第一行的值)：每个物品可以重复选取
 
@@ -66,18 +66,18 @@
 
   2.递推公式：两种状态，放与不放物品i
 
-  	不放物品i：dp[j] = dp[j]
+  不放物品i：dp[j] = dp[j]
 
-  	放物品i：dp[j] = dp[j - wight[i]] + value[i]
+  放物品i：dp[j] = dp[j - wight[i]] + value[i]
 
-  	所以dp[i] [j] = max(dp[j], dp[j - wight[i]] + value[i])
+  所以dp[i] [j] = max(dp[j], dp[j - wight[i]] + value[i])
 
   3.初始化数组：全部为0
 
-  4.遍历顺序：for(i = 0; i < nums; i ++)
+  4.遍历顺序：
+   for(i = 0; i < nums; i ++)
+    for(j = weight[i]; j <= bagweight; j++)
 
-  		   for(j = weight[i]; j <= bagweight; j++)
-
-  	j的顺序：物品可以重复选取，所以要顺序
+  j的顺序：物品可以重复选取，所以要顺序
 
   
