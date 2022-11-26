@@ -31,7 +31,7 @@
   3.初始化数组：由上述递推公式可得，只需要初始化dp数组的第一行和第一列，dp[i] [0] = 0(背包为0最大价值也为0)，dp[0] [j] = 0或者value[0] (j>wight[i]不为0，否则为0)
 
   4.遍历顺序：
-  for(i = 0; i < nums; i ++)
+  for(i = 0; i < nums; i ++)<br>
    for(j = 0; j < bagweight; j ++)
 
   也可以先遍历背包再遍历物品，最后都要遍历，所以不会有顺序问题
@@ -51,7 +51,7 @@
   3.初始化数组：全部为0
 
   4.遍历顺序： 
-  for(i = 0; i < nums; i ++)
+  for(i = 0; i < nums; i ++)<br>
     for(j = bagweight; j >= weight[i]; j--)
 
   为什么j要倒序：物品0的weight为1，value为15，dp[1] = dp[1 - weight[0]] + value[0] = 15,  dp[2] = dp[2 - weight[0]] + value[0] = 30
@@ -75,7 +75,7 @@
   3.初始化数组：全部为0
 
   4.遍历顺序：
-   for(i = 0; i < nums; i ++)
+   for(i = 0; i < nums; i ++)<br>
     for(j = weight[i]; j <= bagweight; j++)
 
   j的顺序：物品可以重复选取，所以要顺序
