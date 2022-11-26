@@ -76,7 +76,7 @@
 
   4.**遍历顺序**：for(i = 0; i < nums; i ++)
 
-  ​							for(j = weight[i]; j <= bagweight; j++)
+  ​		   for(j = weight[i]; j <= bagweight; j++)
 
   ​	**j的顺序**：物品可以重复选取，所以要顺序
 
