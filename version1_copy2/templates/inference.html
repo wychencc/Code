@@ -1,0 +1,382 @@
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--  <title>推理任务</title>-->
+<!--  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--<form action="/api/v1/inference" method="post" enctype="multipart/form-data">-->
+<!--  <select id="first-level" name="type">-->
+<!--    <option value="">任务类型</option>-->
+<!--    <option value="segmentation">语义分割</option>-->
+<!--    <option value="detection">目标检测</option>>-->
+<!--    &lt;!&ndash; 这里可以从后端获取一级选项的数据并动态生成<option>元素 &ndash;&gt;-->
+<!--  </select>-->
+
+<!--  <select id="second-level" name="model_name">-->
+<!--    <option value="">模型名称</option>-->
+<!--    &lt;!&ndash; 这里会根据一级选项的选择动态生成<option>元素 &ndash;&gt;-->
+<!--  </select>-->
+
+<!--  <select id="third-level" name="dataset_name">-->
+<!--    <option value="">数据集名称</option>-->
+<!--    &lt;!&ndash; 这里会根据二级选项的选择动态生成<option>元素 &ndash;&gt;-->
+<!--  </select>-->
+<!--  <input type="file" value="请选择图片" name="file">-->
+<!--  <input type="submit" value="提交">-->
+<!--</form>-->
+
+
+<!--<script>-->
+<!--  $(document).ready(function() {-->
+<!--    // 监听一级下拉框的选择事件-->
+<!--    $("#first-level").change(function() {-->
+<!--      var firstValue = $(this).val();-->
+<!--      // 发送 Ajax 请求获取对应的二级选项-->
+<!--      $.ajax({-->
+<!--        url: "/api/v1/inference",-->
+<!--        type: "GET",-->
+<!--        data: { level: "second", value: firstValue },-->
+<!--        success: function(data) {-->
+<!--          // 清空原有的二级和三级选项-->
+<!--          $("#second-level").empty();-->
+<!--          $("#third-level").empty();-->
+<!--          // 动态生成二级选项-->
+<!--          $.each(data, function(index, value) {-->
+<!--            $("#second-level").append("<option value='" + value + "'>" + value + "</option>");-->
+<!--          });-->
+<!--        }-->
+<!--      });-->
+<!--    });-->
+
+<!--    // 监听二级下拉框的选择事件-->
+<!--    $("#second-level").change(function() {-->
+<!--      var secondValue = $(this).val();-->
+<!--      // 发送 Ajax 请求获取对应的三级选项-->
+<!--      $.ajax({-->
+<!--        url: "/api/v1/inference",-->
+<!--        type: "GET",-->
+<!--        data: { level: "third", value: secondValue },-->
+<!--        success: function(data) {-->
+<!--          // 清空原有的三级选项-->
+<!--          $("#third-level").empty();-->
+<!--          // 动态生成三级选项-->
+<!--          $.each(data, function(index, value) {-->
+<!--            $("#third-level").append("<option value='" + value + "'>" + value + "</option>");-->
+<!--          });-->
+<!--        }-->
+<!--      });-->
+<!--    });-->
+<!--  });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/fonts/icomoon/style.css">
+  <link rel="stylesheet" href="/static/fonts/flaticon/font/flaticon.css">
+  <link type="text/css" rel="stylesheet" href="/static/css/bootstrap.css">
+  <link rel="stylesheet" href="/static/css/tiny-slider.css">
+  <link rel="stylesheet" href="/static/css/glightbox.min.css">
+  <link rel="stylesheet" href="/static/css/aos.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/upload.css">
+  <link rel="stylesheet" href="/static/css/imgtest.css">
+  <script src="/static/js/tiff.js/tiff.min.js"></script>
+  <title>去云去雾</title>
+</head>
+
+<script src="http://i.gtimg.cn/qzone/biz/gdt/lib/jquery/jquery-2.1.4.js?max_age=31536000"></script>
+
+<body>
+<div class="site-mobile-menu site-navbar-target">
+  <div class="site-mobile-menu-header">
+    <div class="site-mobile-menu-close">
+      <span class="icofont-close js-menu-toggle"></span>
+    </div>
+  </div>
+  <div class="site-mobile-menu-body"></div>
+</div>
+
+<nav class="site-nav" style="background-image: url('/static/images/轮播图背景.png');">
+  <div class="container">
+    <div class="site-navigation">
+      <a href="/" class="logo m-0 float-left">浙工大</a>
+
+      <ul class="js-clone-nav d-none d-lg-inline-block text-left site-menu float-right">
+        <li><a href="/api/v1/index">首页</a></li>
+        <li><a href="/api/v1/gee">数据采集</a></li>
+        <li><a href="/api/v1/userdb">用户数据库</a></li>
+        <li><a href="/api/v1/modelzoo">ModelZoo</a></li>
+        <li class="active"><a href="/api/v1/inference">推理任务</a></li>
+      </ul>
+
+      <a href="#" class="burger ms-auto float-end site-menu-toggle js-menu-toggle d-inline-block d-lg-none light" data-toggle="collapse" data-target="#main-navbar">
+        <span></span>
+      </a>
+
+    </div>
+  </div>
+</nav>
+
+<div class="hero overlay" style="background-image: url('/static/images/轮播图背景.png');">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-7 mx-auto text-center">
+        <h1 class="heading text-white" data-aos="fade-up" data-aos-delay="0">去云去雾</h1>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="flexbox">
+  <h1 class="heading text-center fw-bold" data-aos="fade-up" data-aos-delay="0">为您提供一键式智能去云去雾服务</h1>
+</div>
+
+<script>
+  var rgb, sar;
+  var rgb_name, sar_name;
+  function upload(uploadid) {
+    console.log('post');
+    $('#'+uploadid).click();
+  }
+  function loadfile(imgid, uploadid) {
+    var filePath = $('#' + uploadid).val(),         //获取到input的value，里面是文件的路径
+            fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase(),
+            imgBase64 = '',      //存储图片的imgBase64
+            fileObj = document.getElementById(uploadid).files[0]; //上传文件的对象,要这样写才行，用jquery写法获取不到对象
+    if (imgid == 'viewImg')
+      rgb_name = fileObj.name
+      console.log(rgb_name)
+    if (imgid == 'viewImg1')
+      sar_name = fileObj.name
+      console.log(sar_name)
+    // 检查是否是图片
+    if (!fileFormat.match(/.png|.jpg|.jpeg|.tif/)) {
+      alert('上传错误,文件格式必须为：png/jpg/jpeg/tif');
+      return;
+    }
+    directTurnIntoBase64(fileObj, function (params) {
+      imgBase64 = params;
+      $('#' + imgid).attr('src', params);
+      if (imgid == 'viewImg')
+        rgb = params.substring(params.indexOf(',') + 1);
+      if(imgid=='viewImg1')
+        sar=params.substring(params.indexOf(',') + 1);
+    });
+  }
+  function post(isoverwrite) {
+    $.ajax({
+      url: "/api/v1/inference",    //调用目标检测api，
+      type: 'POST',                  // 相当于form 中的 method
+      data: { 'rgb': rgb, 'sar': sar, "rgb_name": rgb_name, "sar_name": sar_name, "isoverwrite": isoverwrite },         // 将数据传到后端
+      dataType: "json",             // 注意这个定义的是返回值的类型，不是发送数据的类型，如果返回类型不是json类型，则会进入error函数
+      success: function (arg) {     // 后端返回成功后的回调函数,data为后端传来的数据
+        if (arg.status === 200) {//处理成功  arg.status为后端返回的处理状态，值为success表示api处理成功
+          $("#viewImg2").attr("src", arg.result);//在image的src属性赋值为处理后的base64值，浏览器可直接显示
+          alert("推理成功");
+        }else if(arg.status === 3001){
+          var r = confirm("您的数据库里存在相同名称的图片，是否覆盖？选择覆盖后对应的推理结果也会覆盖哟")
+          if (r === true){
+            post('1')
+          }else{
+            alert("请重新上传图片")
+          }
+        }
+      },
+      error: function () {
+      }
+    });
+  }
+
+  function toseeTiffimg(path, element) {
+    const url =  path
+    // console.log(url)
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', url)
+    xhr.responseType = 'arraybuffer'
+     //tiff图片的路径
+    xhr.onload = function() {
+      var tiff = new Tiff({ buffer: xhr.response })
+      this.img = tiff.toDataURL() // 转化成base64的api
+      element.src = this.img;
+    };
+    xhr.send()
+  }
+  // 不对图片进行压缩，直接转成base64
+  function directTurnIntoBase64(fileObj, callback) {
+    var r = new FileReader();
+    // 转成base64
+    r.onload = function () {
+      //变成字符串
+      imgBase64 = r.result;
+      // console.log(imgBase64);
+      callback(imgBase64);
+    }
+    r.readAsDataURL(fileObj);
+  }
+
+  function downloadImg(){
+    var img = document.getElementById('viewImg2'); // 获取要下载的图片
+    var url = img.src;                            // 获取图片地址
+    var a = document.createElement('a');          // 创建一个a节点插入的document
+    var event = new MouseEvent('click')           // 模拟鼠标click点击事件
+    a.download = 'result'                  // 设置a节点的download属性值
+    a.href = url;                                 // 将图片的src赋值给a节点的href
+    a.dispatchEvent(event)                        // 触发鼠标点击事件
+  }
+</script>
+
+<div class="flexbox" style="height: 50px">
+  <!-- 显示上传之后的图片 -->
+  <div></div>
+  <label class="fw-bold mb-4 h2" data-aos="fade-right" data-aos-delay="100" >带云图像</label>
+  <div></div>
+  <div style="width: 10vh;"></div>
+  <label class="fw-bold mb-4 h2" data-aos="fade-left" data-aos-delay="100" >SAR图像</label>
+  <div></div>
+</div>
+
+<div class="flexbox2" style="height: 420px">
+  <!-- 显示上传之后的图片 -->
+  <div id='previewImg' class="box" data-aos="fade-right" data-aos-delay="100" style="height: 400px; width: 500px">
+    <img src="" id='viewImg' onerror="toseeTiffimg(this.src,this)"/>
+  </div>
+
+  <div id='previewImg' class="box" data-aos="fade-left" data-aos-delay="100" style="height: 400px; width: 500px">
+    <img src=" " id='viewImg1' />
+  </div>
+</div>
+
+<div class="flexbox" data-aos="fade-up" data-aos-delay="100" style="height: 50px;">
+  <div></div>
+  <div class="center">
+    <button class="btn btn-white mr-3" type="submit" onclick="upload('upLoad1')">选择图片</button>
+    <input type="file" id="upLoad1" name="image" onchange="loadfile('viewImg','upLoad1')" style="display: none;">
+  </div>
+  <div></div>
+  <div style="width: 10vh;"></div>
+  <div class="center">
+    <button class="btn btn-white mr-3" type="submit" onclick="upload('upLoad2')">选择图片</button>
+    <input type="file" id="upLoad2" name="image" onchange="loadfile('viewImg1','upLoad2')" style="display: none;">
+  </div>
+  <div></div>
+</div>
+<div class="flexbox" style="height: 50px">
+  <!-- 显示上传之后的图片 -->
+  <label class="fw-bold mb-4 h2" data-aos="fade-up" data-aos-delay="100" >结果图</label>
+</div>
+<div class="flexbox2" style="height: 420px">
+  <!-- 显示上传之后的图片 -->
+  <div id='previewImg' class="box" data-aos="fade-up" data-aos-delay="100" style="height: 400px; width: 500px">
+    <img src=" " id='viewImg2' />
+  </div>
+</div>
+<div class="flexbox" data-aos="fade-up" data-aos-delay="100" style="height: 50px; display: flex; justify-content: center; align-items: center;">
+  <button class="btn btn-white mr-3" type="button" onclick="post('0')" >进行推理</button>
+  <button id="result" class="btn btn-white mr-3" type="button" onclick="downloadImg()">保存结果</button>
+</div>
+
+<div class="site-footer">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="widget">
+          <h3>关于我们<span class="text-primary"></span> </h3>
+          <p>一支有理想、有目标的团队！</p>
+        </div> <!-- /.widget -->
+        <div class="widget">
+          <h3>联系我们</h3>
+          <ul class="list-unstyled social">
+            <li><a href="#"><span class="icon-instagram"></span></a></li>
+            <li><a href="#"><span class="icon-twitter"></span></a></li>
+            <li><a href="#"><span class="icon-facebook"></span></a></li>
+            <li><a href="#"><span class="icon-linkedin"></span></a></li>
+            <li><a href="#"><span class="icon-pinterest"></span></a></li>
+            <li><a href="#"><span class="icon-dribbble"></span></a></li>
+          </ul>
+        </div> <!-- /.widget -->
+      </div> <!-- /.col-lg-3 -->
+
+      <div class="col-lg-2 ml-auto">
+        <div class="widget">
+          <h3>相关链接</h3>
+          <ul class="list-unstyled float-left links">
+            <li><a href="#">目标提取</a></li>
+            <li><a href="#">变化检测</a></li>
+            <li><a href="#">目标检测</a></li>
+            <li><a href="#">地物分类</a></li>
+            <li><a href="#">关于我们</a></li>
+          </ul>
+        </div> <!-- /.widget -->
+      </div> <!-- /.col-lg-3 -->
+
+      <div class="col-lg-2">
+        <div class="widget">
+          <h3>Company</h3>
+          <ul class="list-unstyled float-left links">
+            <li><a href="#">About us</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">News</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div> <!-- /.widget -->
+      </div> <!-- /.col-lg-3 -->
+
+
+      <div class="col-lg-3">
+        <div class="widget">
+          <h3>联系我们</h3>
+          <address>地址：43 Raymouth Rd. Baltemoer, London 3910</address>
+          <ul class="list-unstyled links mb-4">
+            <li><a href="tel://11234567890">联系人：WYC</a></li>
+            <li><a href="tel://11234567890">联系电话：13867143216</a></li>
+            <li><a href="mailto:info@mydomain.com">邮箱：221122030381@zjut.edu.cn</a></li>
+          </ul>
+        </div> <!-- /.widget -->
+      </div> <!-- /.col-lg-3 -->
+
+    </div> <!-- /.row -->
+
+    <div class="row mt-5">
+      <div class="col-12 text-center">
+        <p>
+          Copyright &copy;
+          <script>document.write(new Date().getFullYear());</script> <i class="icon-heart text-danger"
+                                                                        aria-hidden="true"></i>
+
+      </div>
+    </div>
+  </div> <!-- /.container -->
+</div> <!-- /.site-footer -->
+
+<!-- Preloader -->
+<div id="overlayer"></div>
+<div class="loader">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<script src="/static/js/bootstrap.bundle.min.js"></script>
+<script src="/static/js/tiny-slider.js"></script>
+<script src="/static/js/aos.js"></script>
+<script src="/static/js/navbar.js"></script>
+<script src="/static/js/counter.js"></script>
+<script src="/static/js/glightbox.min.js"></script>
+<script src="/static/js/custom.js"></script>
+</body>
+
+</html>
